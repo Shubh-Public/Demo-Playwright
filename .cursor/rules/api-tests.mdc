@@ -1,0 +1,23 @@
+---
+description: API client, schema, and API spec conventions for this Playwright framework.
+globs: src/api/**/*.ts,tests/api/**/*.ts
+alwaysApply: false
+---
+
+# API tests
+
+- Specs live in `tests/api/<feature>.spec.ts` and import `{ test, expect }` from the fixture.
+- Call the API through the `apiContext` fixture. Its `baseURL` is `env.apiBaseUrl`.
+- Put HTTP calls in `src/api/<name>.client.ts`. Construct the client in a fixture from `apiContext`.
+- Validate JSON with a Zod schema in `src/api/schemas/<name>.schema.ts`. Parse the body before asserting fields.
+- Call `meta()` first. Tag the test. Pass varying inputs with `parameter()` from `src/utils/allure.ts`.
+- Cover the success status and one error status for each endpoint you automate.
+- Do not hit `env.baseUrl` from an API spec, and do not open a browser page for a pure API check.
+
+```typescript
+test('returns the item', { tag: ['@regression'] }, async ({ itemsClient }) => {
+  await meta({ epic: 'API', feature: 'Items', story: 'Get item', severity: 'critical' });
+  const body = itemSchema.parse(await itemsClient.getItem(1));
+  expect(body.id).toBe(1);
+});
+```

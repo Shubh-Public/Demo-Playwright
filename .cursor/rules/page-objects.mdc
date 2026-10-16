@@ -1,0 +1,41 @@
+---
+description: Page object and component conventions for this Playwright framework.
+globs: src/pages/**/*.ts,src/components/**/*.ts
+alwaysApply: false
+---
+
+# Page objects
+
+- One class per screen in `src/pages/<name>.page.ts`. Extend `BasePage`.
+- Shared widgets live in `src/components/<name>.component.ts` and are constructed by the page that owns them.
+- Keep locators as private fields. Keep user actions as public methods.
+- Wrap each public action in `step()` from `src/utils/allure.ts`.
+- Open screens with `this.goto('/relative-path')`. Do not call `page.goto` with an absolute URL.
+- Do not assert inside page methods. Return text, counts, or locators the spec can assert.
+- Do not import `test` or `expect` from the fixture into a page class.
+- After adding a page, register it on `test` in `src/fixtures/test.fixture.ts`.
+
+```typescript
+import type { Locator, Page } from '@playwright/test';
+import { step } from '../utils/allure';
+import { BasePage } from './base.page';
+
+export class HomePage extends BasePage {
+  private readonly heading: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.heading = page.getByRole('heading', { name: 'Example' });
+  }
+
+  async open(): Promise<void> {
+    await step('Open home', async () => {
+      await this.goto('/');
+    });
+  }
+
+  title(): Locator {
+    return this.heading;
+  }
+}
+```

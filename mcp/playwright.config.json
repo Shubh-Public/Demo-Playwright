@@ -1,0 +1,29 @@
+{
+  "browser": {
+    "browserName": "chromium",
+    "isolated": true,
+    "launchOptions": {
+      "headless": true
+    },
+    "contextOptions": {
+      "viewport": { "width": 1280, "height": 720 },
+      "ignoreHTTPSErrors": true,
+      "locale": "en-US",
+      "timezoneId": "Asia/Kolkata"
+    }
+  },
+  "testIdAttribute": "data-testid",
+  "outputDir": "mcp-output",
+  "codegen": "typescript",
+  "console": {
+    "level": "warning"
+  },
+  "timeouts": {
+    "action": 10000,
+    "navigation": 30000,
+    "expect": 10000
+  },
+  "snapshot": {
+    "mode": "full"
+  }
+}

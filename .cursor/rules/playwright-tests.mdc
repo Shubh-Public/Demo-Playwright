@@ -1,0 +1,31 @@
+---
+description: Structure for writing Playwright specs in this framework. Use when adding or changing automated test cases.
+alwaysApply: true
+---
+
+# Playwright test structure
+
+This repo has no sample specs. Before writing tests, read `.cursor/skills/write-playwright-tests/SKILL.md` and follow it.
+
+## Where files go
+
+- Logged-out UI: `tests/guest/<feature>.spec.ts` (project `guest-*`)
+- Logged-in UI: `tests/e2e/<feature>.spec.ts` (project `e2e-*`)
+- API: `tests/api/<feature>.spec.ts` (project `api`)
+- Pages: `src/pages/<name>.page.ts`, extending `BasePage`
+- Widgets used by more than one page: `src/components/<name>.component.ts`
+- API clients: `src/api/<name>.client.ts`
+- Response schemas: `src/api/schemas/<name>.schema.ts`
+- Data-driven cases: `test-data/<name>.json`, loaded with `readJson`
+- Saved login only: `tests/setup/auth.setup.ts` → `playwright/.auth/*.json`
+
+## Spec rules
+
+- Import `{ test, expect }` from `src/fixtures/test.fixture.ts`. Do not import `test` from `@playwright/test` in a spec.
+- Call `meta()` from `src/utils/allure.ts` as the first line inside every test.
+- Tag with `{ tag: ['@smoke'] }`, `@regression`, `@a11y`, or `@quarantine`. CI skips `@quarantine`.
+- Navigate with a relative path. `baseURL` is `env.baseUrl`.
+- Assert in the spec. Page methods perform actions and return state.
+- Register each page as a fixture in `src/fixtures/test.fixture.ts` before a spec uses it.
+- Locator order: `getByRole`, `getByLabel`, `getByPlaceholder`, then `getByTestId`. `getByTestId` matches `data-testid`.
+- Confirm locators on the live site. Do not invent selectors, use `waitForTimeout`, commit `test.only`, or hardcode an absolute URL.

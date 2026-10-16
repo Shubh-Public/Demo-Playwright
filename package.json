@@ -1,0 +1,47 @@
+{
+  "name": "playwright-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright POM framework with fixtures, Allure reporting, and Playwright MCP.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:e2e": "playwright test tests/e2e tests/guest",
+    "test:api": "playwright test tests/api",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "allure:serve": "allure serve allure-results",
+    "mcp": "playwright-mcp --config mcp/playwright.config.json",
+    "mcp:http": "playwright-mcp --port 8931 --config mcp/playwright.config.json",
+    "codegen": "playwright codegen",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "clean": "rm -rf allure-results allure-report playwright-report test-results blob-report logs mcp-output dist playwright/.auth/*.json"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@eslint/js": "^10.0.1",
+    "@playwright/mcp": "^0.0.83",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
+    "allure-commandline": "^2.46.1",
+    "allure-js-commons": "^3.13.0",
+    "allure-playwright": "^3.13.0",
+    "dotenv": "^18.0.8",
+    "eslint": "^10.13.0",
+    "prettier": "^3.9.10",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.2",
+    "zod": "^4.6.7"
+  }
+}
