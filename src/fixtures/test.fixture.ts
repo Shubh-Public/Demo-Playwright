@@ -3,10 +3,14 @@ import * as allure from 'allure-js-commons';
 import { env } from '../config/env';
 import { attachFailureDiagnostics, collectPageErrors } from '../utils/diagnostics';
 import { logger } from '../utils/logger';
+import { LoginPage } from '../pages/login.page';
+import { DashboardDetailsPage } from '../pages/dashboard-details.page';
 
 type Fixtures = {
   apiContext: APIRequestContext;
   testLog: void;
+  loginPage: LoginPage;
+  dashboardDetailsPage: DashboardDetailsPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -39,6 +43,14 @@ export const test = base.extend<Fixtures>({
     await use(context);
     await context.dispose();
   },
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
+
+  dashboardDetailsPage: async ({ page }, use) => {
+    await use(new DashboardDetailsPage(page));
+  },
+
 });
 
 export { expect };
